@@ -1,7 +1,12 @@
 name: Build and Publish Image to Docker Hub
 
 on:
-  workflow_dispatch
+  push:
+    branchs:
+      - main
+    path:
+      - 'contactapi/Dockerfile'
+      - 'contactapp/Dockerfile'
 
 jobs:
   publish_images:
@@ -18,7 +23,11 @@ jobs:
         run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u zitguy316 --password-stdin
 
       - name: Build image
-        run: docker build ./contactapi/ -t zitguy316/contact-list:latest
+        run: 
+          docker build ./contactapi/ -t zitguy316/contact-list:latest
+          docker build ./contactapp/ -t zitguy316/contactlistapp:latest
 
       - name: Push image to Docker Hub
-        run: docker push zitguy316/contact-list:latest
+        run: 
+          docker push zitguy316/contact-list:latest
+          docker push zitguy316/contactlistapp:latest
