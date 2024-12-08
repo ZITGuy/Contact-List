@@ -2,9 +2,9 @@ name: Build and Publish Image to Docker Hub
 
 on:
   push:
-    branchs:
+    branches:
       - main
-    path:
+    paths:
       - 'contactapi/Dockerfile'
       - 'contactapp/Dockerfile'
 
@@ -23,11 +23,11 @@ jobs:
         run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u zitguy316 --password-stdin
 
       - name: Build image
-        run: 
+        run: |
           docker build ./contactapi/ -t zitguy316/contact-list:latest
           docker build ./contactapp/ -t zitguy316/contactlistapp:latest
 
       - name: Push image to Docker Hub
-        run: 
+        run: |
           docker push zitguy316/contact-list:latest
           docker push zitguy316/contactlistapp:latest
